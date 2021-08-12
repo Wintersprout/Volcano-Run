@@ -32,7 +32,8 @@ public class DoubleJumpCharacter : PlayerCharacter
     protected override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.GetContact(0).normal.normalized == Vector3.up)
+        //if (collision.gameObject.CompareTag("Ground"))
         {
             isDoubleJumping = false;
         }

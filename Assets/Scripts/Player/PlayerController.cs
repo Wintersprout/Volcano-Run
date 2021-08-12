@@ -12,14 +12,8 @@ public class PlayerController : MonoBehaviour
         player = FindObjectOfType<Stamina>().GetComponent<PlayerCharacter>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        horizontalInput = -Input.GetAxis("Horizontal");
-        verticalInput = -Input.GetAxis("Vertical");
-
-        player.Move(horizontalInput, verticalInput);
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             player.Jump(horizontalInput, verticalInput);
@@ -29,5 +23,15 @@ public class PlayerController : MonoBehaviour
         {
             player.SpecialAbility();
         }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        horizontalInput = -Input.GetAxis("Horizontal");
+        verticalInput = -Input.GetAxis("Vertical");
+
+        player.Move(horizontalInput, verticalInput);
+
     }
 }

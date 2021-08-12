@@ -5,8 +5,8 @@ using UnityEngine;
 public class Stamina : MonoBehaviour
 {
     [SerializeField]
-    public float maxStamina;
-    public float currentStamina { get; set; }
+    public const float maxStamina = 10;
+    public float currentStamina;
     [SerializeField]
     private float decreaseRate;
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class Stamina : MonoBehaviour
         currentStamina -= amount;
         if (currentStamina <= 0)
         {
-            Debug.Log("Out of Stamina. Game Over!");
+            //Game Over
         }
     }
 
@@ -34,7 +34,9 @@ public class Stamina : MonoBehaviour
     {
         currentStamina += amount;
         if (currentStamina > maxStamina)
+        {
             currentStamina = maxStamina;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -47,6 +49,6 @@ public class Stamina : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PickUp"))
-            currentStamina += 2;
+            RecoverStamina(other.GetComponent<PickUp>().restoreRate);
     }
 }

@@ -876,7 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f05a1a6c4191a14fb20a4825c001575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxStamina: 10
+  currentStamina: 0
   decreaseRate: 0.1
 --- !u!114 &8760726042995551879
 MonoBehaviour:
@@ -891,7 +891,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  jumpForce: 5
+  jumpForce: 8
+  isOnGround: 0
   floatMaxDuration: 1
 --- !u!114 &8760726042995551931
 MonoBehaviour:

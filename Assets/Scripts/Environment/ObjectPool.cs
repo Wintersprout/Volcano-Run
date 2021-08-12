@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class ObjectPool : MonoBehaviour
 {
     [SerializeField]
-    protected GameObject objectPrefab;
+    protected GameObject[] objectPrefab;
     protected Queue<GameObject> objectQueue;
     [SerializeField]
     private int poolSize;
@@ -16,7 +16,8 @@ public abstract class ObjectPool : MonoBehaviour
 
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject gameObject = Instantiate(objectPrefab);
+            int index = Random.Range(0, objectPrefab.Length);
+            GameObject gameObject = Instantiate(objectPrefab[index]);
             gameObject.SetActive(false);
             objectQueue.Enqueue(gameObject);
             gameObject.transform.SetParent(this.transform);

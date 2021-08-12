@@ -8,9 +8,9 @@ public abstract class PlayerCharacter : MonoBehaviour
     public float moveSpeed = 10;
     public static float scrollSpeed;
     [SerializeField]
-    protected float jumpForce = 5;
+    protected float jumpForce = 10;
 
-    protected bool isOnGround = true;
+    public bool isOnGround;
 
     protected Rigidbody playerRb;
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public abstract class PlayerCharacter : MonoBehaviour
     public virtual void Jump(float horizontalInput, float verticalInput)
     {
         Vector3 jumpVector = new Vector3(horizontalInput, 1, verticalInput) * jumpForce;
-        
+
         if (isOnGround)
         {
             playerRb.AddForce(jumpVector, ForceMode.Impulse);
@@ -34,24 +34,31 @@ public abstract class PlayerCharacter : MonoBehaviour
         if (isOnGround)
         {
             Vector3 movement = new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime;
-            transform.Translate(movement);
+            playerRb.MovePosition(transform.position + movement);
         }
     }
 
     public abstract void SpecialAbility();
-
+    
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.GetContact(0).normal.normalized == Vector3.up)
+        //if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
         }
     }
     protected virtual void OnCollisionExit(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Ground"))
+    {/*
+        Debug.Log(collision.contactCount);
+        Debug.Log(collision.GetContact(0).normal);
+        if (collision.contactCount > 0)
         {
-            isOnGround = false;
-        }
+            if (collision.GetContact(0).normal.normalized == Vector3.up)
+            //if (collision.gameObject.CompareTag("Ground"))
+            {
+                isOnGround = false;
+            }
+        }*/
     }
 }

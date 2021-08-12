@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockPool : ObjectPool
+public class RockPool : SpawnManager
 {
-    private List<GameObject> activeList;
+    //private List<GameObject> activeList;
     [SerializeField]
     private Vector3 spawnPoint;
 
     private void Start()
     {
-        activeList = new List<GameObject>();
         Physics.gravity *= 2;
-        InvokeRepeating("SpawnRock", 1, 1);
+        InvokeRepeating("Spawn", spawnDelay, spawnFrequency);
     }
 
     private void Update()
@@ -20,11 +19,11 @@ public class RockPool : ObjectPool
         RemoveOutOfBounds();
     }
 
-    public void SpawnRock()
+    public override void Spawn()
     {
         activeList.Add(this.GetObject(spawnPoint)); // Set active a new object and add to active list
     }
-
+    /*
     private void RemoveOutOfBounds()
     {
         List<GameObject> outOfBounds = new List<GameObject>();
@@ -60,5 +59,5 @@ public class RockPool : ObjectPool
         }
 
         return false;
-    }
+    }*/
 }

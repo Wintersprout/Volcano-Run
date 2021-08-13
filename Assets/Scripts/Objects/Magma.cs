@@ -8,13 +8,19 @@ public class Magma : Rock
     private GameObject explosionParticle;
 
     // Start is called before the first frame update
-    private void OnEnable()
+    protected override void OnEnable()
     {
         ResetVelocity();
         RandomizeSize(minimumMass, maximumMass);
-        //ApplyRandomTorque(Random.Range(-initialTorqueRange, initialTorqueRange));
+        ApplyRandomTorque(Random.Range(-initialTorqueRange, initialTorqueRange));
         ApplyRandomImpulse(moveSpeed);
     }
+
+    protected override void Update()
+    {
+        //base.Update();
+    }
+
 
     protected override void ApplyRandomImpulse(float impulseStrenght)
     {
@@ -24,8 +30,8 @@ public class Magma : Rock
 
     private void OnCollisionEnter(Collision collision)
     {
-        GetComponentInParent<ObjectPool>().ReturnObject(gameObject);
-
+        GetComponentInParent<MagmaPool>().Remove(gameObject);
+        
         GameObject explosion = Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
         explosion.transform.localScale = gameObject.transform.localScale;
     }

@@ -26,7 +26,7 @@ public class Stamina : MonoBehaviour
         currentStamina -= amount;
         if (currentStamina <= 0)
         {
-            //Game Over
+            GameManager.game.gameOver = true;
         }
     }
 

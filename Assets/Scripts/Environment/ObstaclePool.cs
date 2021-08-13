@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class ObstaclePool : SpawnManager
 {
-    private bool isReadyToSpawn = true;
+    private bool isReadyToSpawn;
     private float maxDelay = 3;
+
+    private void OnEnable()
+    {
+        isReadyToSpawn = true;
+    }
 
     public override void Spawn()
     {
-        Vector3 location = new Vector3(Random.Range(-10.0f, 10.0f), 0.5f, 20);
+        Vector3 location = new Vector3(Random.Range(-10.0f, 10.0f), 0, 20);
         activeList.Add(GetObject(location));
     }
 

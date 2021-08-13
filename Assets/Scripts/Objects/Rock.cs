@@ -16,7 +16,7 @@ public class Rock : Obstacle
         obstacleRb = GetComponent<Rigidbody>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         ResetVelocity();
         RandomizeSize(minimumMass, maximumMass);
@@ -24,14 +24,15 @@ public class Rock : Obstacle
         ApplyRandomImpulse(moveSpeed);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         ApplyPull(moveSpeed);
     }
 
     private void ApplyPull(float pullForce)
     {
-        float resultingForce = pullForce - PlayerCharacter.scrollSpeed;
+        //float resultingForce = pullForce - PlayerCharacter.scrollSpeed;
+        float resultingForce = pullForce;
         obstacleRb.AddForce(Vector3.forward * resultingForce);
     }
 

@@ -37,8 +37,7 @@ public abstract class SpawnManager : ObjectPool
         // and return them to the pool, as well as removing from the active list.
         foreach (var obj in outOfBounds)
         {
-            activeList.Remove(obj);
-            ReturnObject(obj);
+            Remove(obj);
         }
 
         outOfBounds.Clear();
@@ -57,5 +56,22 @@ public abstract class SpawnManager : ObjectPool
         }
 
         return false;
+    }
+
+    public void Remove(GameObject obj)
+    {
+        activeList.Remove(obj);
+        ReturnObject(obj);
+        //Debug.Log($"Returning object {obj.name}");
+    }
+
+    public void RemoveAll()
+    {
+        List<GameObject> toBeRemoved = new List<GameObject>();
+
+        foreach (var obj in activeList)
+            toBeRemoved.Add(obj);
+        foreach (var obj in toBeRemoved)
+            Remove(obj);
     }
 }

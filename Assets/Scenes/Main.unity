@@ -1175,9 +1175,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab:
   - {fileID: 8263325278022615397, guid: 261a6991ce2333f45a9cdb49efad9205, type: 3}
-  poolSize: 10
-  spawnDelay: 1.5
-  spawnFrequency: 1.5
+  poolSize: 5
+  spawnDelay: 1
+  spawnFrequency: 1
 --- !u!4 &587773043
 Transform:
   m_ObjectHideFlags: 0
@@ -2461,7 +2461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1475672147
 Transform:
   m_ObjectHideFlags: 0
@@ -2750,7 +2750,6 @@ GameObject:
   - component: {fileID: 1550837453}
   - component: {fileID: 1550837452}
   - component: {fileID: 1550837456}
-  - component: {fileID: 1550837457}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Ground
@@ -2848,19 +2847,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BringBackToFront: 1
---- !u!65 &1550837457
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1550837451}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 10, y: 2.220446e-16, z: 10.000001}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1574518997 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1144198474251810, guid: c18b0566c0ca32548acca53d337698db, type: 3}

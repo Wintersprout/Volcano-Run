@@ -10,7 +10,6 @@ public class RockPool : SpawnManager
 
     private void Start()
     {
-        Physics.gravity *= 2;
         InvokeRepeating("Spawn", spawnDelay, spawnFrequency);
     }
 

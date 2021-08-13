@@ -7,13 +7,13 @@ public class UIHandler : MonoBehaviour
 {
     private Stamina playerStamina;
     private  Slider staminaBar;
-    //private Text staminaText;
+    private Text distanceText;
     // Start is called before the first frame update
     void Start()
     {
         playerStamina = FindObjectOfType<Stamina>().GetComponent<Stamina>();
-        //playerStamina = GameObject.Find("Player").GetComponent<Stamina>();
-        //staminaText = GetComponentInChildren<Text>();
+        
+        distanceText = GetComponentInChildren<Text>();
         staminaBar = GetComponentInChildren<Slider>();
         staminaBar.maxValue = Stamina.maxStamina;
     }
@@ -22,6 +22,6 @@ public class UIHandler : MonoBehaviour
     void Update()
     {
         staminaBar.value = playerStamina.currentStamina;
-        //staminaText.text = playerStamina.gameObject.GetComponent<PlayerCharacter>().isOnGround.ToString();//playerStamina.currentStamina.ToString();
+        distanceText.text = $"Distance: {Mathf.Floor(GameManager.game.distanceRan)}m";
     }
 }

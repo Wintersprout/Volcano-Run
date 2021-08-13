@@ -10,7 +10,7 @@ public class Scroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.back * PlayerCharacter.scrollSpeed * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.back * GameManager.game.scrollSpeed * Time.deltaTime, Space.World);
 
         if (BringBackToFront)
         {

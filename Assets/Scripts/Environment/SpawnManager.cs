@@ -6,7 +6,7 @@ public abstract class SpawnManager : ObjectPool
 {
     protected List<GameObject> activeList; // Pool objects that are currently active
 
-    protected float zLowerBound = -180, zUpperBound = 10;
+    protected float zLowerBound = -180, zUpperBound = 20;
     protected float yLowerBound = -5, yUpperBound = 50;
     protected float xLowerBound = -30, xUpperBound = 30;
 

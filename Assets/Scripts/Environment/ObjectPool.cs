@@ -19,7 +19,7 @@ public abstract class ObjectPool : MonoBehaviour
             int index = Random.Range(0, objectPrefab.Length);
             GameObject gameObject = Instantiate(objectPrefab[index]);
             gameObject.SetActive(false);
-            gameObject.name = i.ToString();
+            //gameObject.name = i.ToString();
             objectQueue.Enqueue(gameObject);
             gameObject.transform.SetParent(this.transform);
         }

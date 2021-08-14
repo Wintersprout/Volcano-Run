@@ -12,7 +12,7 @@ public class Magma : Rock
     {
         ResetVelocity();
         RandomizeSize(minimumMass, maximumMass);
-        ApplyRandomTorque(Random.Range(-initialTorqueRange, initialTorqueRange));
+        //ApplyRandomTorque(Random.Range(-initialTorqueRange, initialTorqueRange));
         ApplyRandomImpulse(moveSpeed);
     }
 

@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public static GameManager game;
     private float gravityModifier = 2;
 
+    [SerializeField]
+    private GameObject[] spawnManager;
+
     public float scrollSpeed;
     public GameObject[] playerPrefabs;
     public int playerSelection;
@@ -38,12 +41,6 @@ public class GameManager : MonoBehaviour
             {
                 distanceRan += scrollSpeed * Time.deltaTime;
             }
-            else //Gotta do this somewhere else, not on update
-            {
-                scrollSpeed = 0;
-                GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
-                player.GetComponent<PlayerController>().enabled = false;
-            }
         }
     }
 
@@ -54,6 +51,7 @@ public class GameManager : MonoBehaviour
         // Instantiate selected character
         player = Instantiate(playerPrefabs[playerSelection]);
         player.transform.SetParent(transform);
+
         // Load main scene
         SceneManager.LoadScene(1);
 
@@ -64,6 +62,15 @@ public class GameManager : MonoBehaviour
         {
             child.gameObject.SetActive(true);
         }
+
+    }
+
+    public void EndGame()
+    {
+        gameOver = true;
+        scrollSpeed = 0;
+        GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
+        player.GetComponent<PlayerController>().enabled = false;
     }
 
     public void ReturnToStartMenu()

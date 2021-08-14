@@ -19,6 +19,11 @@ public abstract class SpawnManager : ObjectPool
         activeList = new List<GameObject>();
     }
 
+    protected virtual void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     public abstract void Spawn();
 
 

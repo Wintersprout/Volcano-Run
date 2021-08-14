@@ -5,7 +5,7 @@ using UnityEngine;
 public class PickUpPool : SpawnManager
 {
 
-    private void Start()
+    private void OnEnable()
     {
         InvokeRepeating("Spawn", spawnDelay, spawnFrequency);
     }

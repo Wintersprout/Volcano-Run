@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
-    [Range(1, 3)]
+    [Range(10, 30)]
     public float restoreRate;
 
     private void OnTriggerEnter(Collider other)

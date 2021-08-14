@@ -5,7 +5,7 @@ using UnityEngine;
 public class Stamina : MonoBehaviour
 {
     [SerializeField]
-    public const float maxStamina = 10;
+    public const float maxStamina = 100;
     public float currentStamina;
     [SerializeField]
     private float decreaseRate;
@@ -45,11 +45,12 @@ public class Stamina : MonoBehaviour
         if (obstacle != null)
         {
             var damageParticle = GetComponentInChildren<ParticleSystem>(true);
+            Debug.Log(damageParticle.gameObject.name);
 
             if (damageParticle != null)
             {
-                Debug.Log(damageParticle.gameObject.name);
                 damageParticle.gameObject.SetActive(true);
+                damageParticle.Play();
             }
 
             LoseStamina(obstacle.damageRate);

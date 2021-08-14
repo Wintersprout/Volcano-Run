@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MagmaPool : SpawnManager
 {
-    private void Start()
+    private void OnEnable()
     {
         InvokeRepeating("Spawn", spawnDelay, spawnFrequency);
     }

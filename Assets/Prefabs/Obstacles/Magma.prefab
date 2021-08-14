@@ -4951,7 +4951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b266ffd8320e39e498dd78198dac62b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageRate: 2
+  damageRate: 20
   moveSpeed: 10
   minimumMass: 0.5
   maximumMass: 3

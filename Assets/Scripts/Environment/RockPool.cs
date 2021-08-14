@@ -8,7 +8,7 @@ public class RockPool : SpawnManager
     [SerializeField]
     private Vector3 spawnPoint;
 
-    private void Start()
+    private void OnEnable()
     {
         InvokeRepeating("Spawn", spawnDelay, spawnFrequency);
     }

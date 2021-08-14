@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     private float gravityModifier = 2;
 
     public float scrollSpeed;
-    public GameObject[] playerCharacter;
-    public int playerCharacterSelection;
+    public GameObject[] playerPrefabs;
+    public int playerSelection;
     private GameObject player;
 
     public bool gameOver;
@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Physics.gravity *= gravityModifier;
 
         if (game != null)
             Destroy(gameObject);
@@ -27,27 +26,35 @@ public class GameManager : MonoBehaviour
         {
             game = this;
             DontDestroyOnLoad(game);
+            Physics.gravity *= gravityModifier;
         }
     }
-
+    
     private void Update()
     {
-        if (!gameOver)
+        if (SceneManager.GetActiveScene().name == "Main")
         {
-            distanceRan += scrollSpeed * Time.deltaTime;
-        }
-        else
-        {
-            scrollSpeed = 0;
-            GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
-            player.GetComponent<PlayerController>().enabled = false;
+            if (!gameOver)
+            {
+                distanceRan += scrollSpeed * Time.deltaTime;
+            }
+            else //Gotta do this somewhere else, not on update
+            {
+                scrollSpeed = 0;
+                GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
+                player.GetComponent<PlayerController>().enabled = false;
+            }
         }
     }
 
     public void StartGame()
     {
-        player = Instantiate(playerCharacter[playerCharacterSelection]);
+        // Start game
+        gameOver = false;
+        // Instantiate selected character
+        player = Instantiate(playerPrefabs[playerSelection]);
         player.transform.SetParent(transform);
+        // Load main scene
         SceneManager.LoadScene(1);
 
         // Enable Object Pools
@@ -61,9 +68,11 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToStartMenu()
     {
+        // Disable game over screen
+        GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+
         Destroy(player);
         distanceRan = 0;
-        gameOver = false;
 
         // Disable all children and reset Object Pools
         var children = GetComponentsInChildren<SpawnManager>();
@@ -73,8 +82,6 @@ public class GameManager : MonoBehaviour
             child.gameObject.SetActive(false);
             child.RemoveAll();
         }
-
-        GetComponentInChildren<Canvas>().gameObject.SetActive(false);
 
         SceneManager.LoadScene(0);
     }

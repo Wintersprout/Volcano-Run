@@ -21,17 +21,17 @@ public class MenuHandler : MonoBehaviour
 
     public void SelectCharacterOne()
     {
-        GameManager.game.playerCharacterSelection = 0;
+        GameManager.game.playerSelection = 0;
         GameManager.game.scrollSpeed = 10;
     }
     public void SelectCharacterTwo()
     {
-        GameManager.game.playerCharacterSelection = 1;
+        GameManager.game.playerSelection = 1;
         GameManager.game.scrollSpeed = 15;
     }
     public void SelectCharacterThree()
     {
-        GameManager.game.playerCharacterSelection = 2;
+        GameManager.game.playerSelection = 2;
         GameManager.game.scrollSpeed = 20;
     }
 }

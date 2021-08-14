@@ -43,7 +43,17 @@ public class Stamina : MonoBehaviour
     {  
         var obstacle = collision.gameObject.GetComponent<Obstacle>();
         if (obstacle != null)
-            LoseStamina(obstacle.damageRate);   
+        {
+            var damageParticle = GetComponentInChildren<ParticleSystem>(true);
+
+            if (damageParticle != null)
+            {
+                Debug.Log(damageParticle.gameObject.name);
+                damageParticle.gameObject.SetActive(true);
+            }
+
+            LoseStamina(obstacle.damageRate);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

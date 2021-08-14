@@ -7,9 +7,10 @@ public abstract class PlayerCharacter : MonoBehaviour
     [SerializeField]
     public float moveSpeed = 10;
     public static float scrollSpeed;
+    /*
     [SerializeField]
     protected float jumpForce = 10;
-
+    */
     public bool isOnGround;
 
     protected Rigidbody playerRb;
@@ -18,7 +19,7 @@ public abstract class PlayerCharacter : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
     }
-
+    /*
     public virtual void Jump(float horizontalInput, float verticalInput)
     {
         Vector3 jumpVector = new Vector3(horizontalInput, 1, verticalInput) * jumpForce;
@@ -28,10 +29,10 @@ public abstract class PlayerCharacter : MonoBehaviour
             playerRb.AddForce(jumpVector, ForceMode.Impulse);
         }
     }
-
+    */
     public virtual void Move(float horizontalInput, float verticalInput)
     {
-        if (isOnGround)
+        //if (isOnGround)
         {
             Vector3 movement = new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime;
             playerRb.MovePosition(transform.position + movement);
@@ -49,16 +50,15 @@ public abstract class PlayerCharacter : MonoBehaviour
         }
     }
     protected virtual void OnCollisionExit(Collision collision)
-    {/*
-        Debug.Log(collision.contactCount);
-        Debug.Log(collision.GetContact(0).normal);
-        if (collision.contactCount > 0)
+    {
+        
+        //if (collision.contactCount > 0)
         {
-            if (collision.GetContact(0).normal.normalized == Vector3.up)
-            //if (collision.gameObject.CompareTag("Ground"))
+            //if (collision.GetContact(0).normal.normalized == Vector3.up)
+            if (collision.gameObject.CompareTag("Ground"))
             {
                 isOnGround = false;
             }
-        }*/
+        }
     }
 }

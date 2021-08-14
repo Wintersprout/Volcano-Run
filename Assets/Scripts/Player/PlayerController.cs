@@ -16,13 +16,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            player.Jump(horizontalInput, verticalInput);
+            //player.Jump(horizontalInput, verticalInput);
+            player.SpecialAbility();
         }
-
+        /*
         if (Input.GetKeyDown(KeyCode.C))
         {
             player.SpecialAbility();
         }
+        */
     }
 
     // Update is called once per frame

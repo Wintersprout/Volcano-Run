@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleJumpCharacter : PlayerCharacter
+public class JumpCharacter : PlayerCharacter
 {
-    private bool isDoubleJumping = false;
+    //private bool isDoubleJumping = false;
+    [SerializeField]
+    protected float jumpForce = 10;
 
     private void Start()
     {
         scrollSpeed = 15;
     }
-
+    /*
     public override void Jump(float horizontalInput, float verticalInput)
     {
         base.Jump(horizontalInput, verticalInput);
@@ -23,12 +25,17 @@ public class DoubleJumpCharacter : PlayerCharacter
             isDoubleJumping = true;
         }
     }
-
+    */
     public override void SpecialAbility()
     {
-        throw new System.NotImplementedException();
-    }
+        Vector3 jumpVector = new Vector3(playerRb.velocity.x, 1, playerRb.velocity.z) * jumpForce;
 
+        if (isOnGround)
+        {
+            playerRb.AddForce(jumpVector, ForceMode.Impulse);
+        }
+    }
+    /*
     protected override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
@@ -38,4 +45,5 @@ public class DoubleJumpCharacter : PlayerCharacter
             isDoubleJumping = false;
         }
     }
+    */
 }

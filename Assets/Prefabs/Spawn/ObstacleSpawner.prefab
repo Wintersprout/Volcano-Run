@@ -48,5 +48,5 @@ MonoBehaviour:
   - {fileID: 6230753748071483179, guid: 693eb40be689fac42af417c841491917, type: 3}
   - {fileID: 2874456967776022977, guid: 51d00d7fe9f4f7a43bf0b01a4024d02d, type: 3}
   poolSize: 25
-  spawnDelay: 2
-  spawnFrequency: 1
+  spawnFrequency: 0.5
+  maxSpawnFrequency: 6

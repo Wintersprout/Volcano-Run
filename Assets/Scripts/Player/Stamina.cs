@@ -9,6 +9,7 @@ public class Stamina : MonoBehaviour
     public float currentStamina;
     [SerializeField]
     private float decreaseRate;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,10 +24,13 @@ public class Stamina : MonoBehaviour
 
     public void LoseStamina(float amount)
     {
-        currentStamina -= amount;
-        if (currentStamina <= 0)
+        if (!GameManager.game.gameOver)
         {
-            GameManager.game.EndGame();
+            currentStamina -= amount;
+            if (currentStamina <= 0)
+            {
+                GameManager.game.EndGame();
+            }
         }
     }
 
@@ -40,12 +44,12 @@ public class Stamina : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {  
+    {
+        // Lose stamina and show particles if collide with an obstacle
         var obstacle = collision.gameObject.GetComponent<Obstacle>();
         if (obstacle != null)
         {
             var damageParticle = GetComponentInChildren<ParticleSystem>(true);
-            Debug.Log(damageParticle.gameObject.name);
 
             if (damageParticle != null)
             {

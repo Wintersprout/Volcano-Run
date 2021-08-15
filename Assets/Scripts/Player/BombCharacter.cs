@@ -6,15 +6,17 @@ public class BombCharacter : PlayerCharacter
 {
     private Bomb bomb;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
+        runSpeed = 16;
         bomb = GetComponentInChildren<Bomb>(true);
     }
     public override void SpecialAbility()
     {
         if (!bomb.gameObject.activeSelf)
         {
-            bomb.Reset(transform.position);
+            bomb.Reset();
             bomb.gameObject.SetActive(true);
         }
     }

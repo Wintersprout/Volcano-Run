@@ -8,9 +8,10 @@ public class DashCharacter : PlayerCharacter
     public float dashSpeed = 5;
     public float dashDuration = 0.1f;
 
-    private void Start()
+    protected override void Awake()
     {
-        scrollSpeed = 20;
+        base.Awake();
+        runSpeed = 24;
     }
 
     public override void Move(float horizontalInput, float verticalInput)

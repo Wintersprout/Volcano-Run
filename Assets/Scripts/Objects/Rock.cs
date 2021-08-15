@@ -31,8 +31,8 @@ public class Rock : Obstacle
 
     private void ApplyPull(float pullForce)
     {
-        //float resultingForce = pullForce - PlayerCharacter.scrollSpeed;
-        float resultingForce = pullForce;
+        float resultingForce = pullForce - GameManager.game.scrollSpeed;
+        //float resultingForce = pullForce;
         obstacleRb.AddForce(Vector3.forward * resultingForce);
     }
 

@@ -24,7 +24,7 @@ public class Magma : Rock
 
     protected override void ApplyRandomImpulse(float impulseStrenght)
     {
-        Vector3 direction = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 1).normalized;
+        Vector3 direction = new Vector3(Random.Range(-1.0f, 1.0f), 0, 1).normalized;
         obstacleRb.AddForce(direction * moveSpeed, ForceMode.Impulse);
     }
 

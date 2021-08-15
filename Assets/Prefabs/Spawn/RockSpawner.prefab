@@ -46,6 +46,6 @@ MonoBehaviour:
   objectPrefab:
   - {fileID: 8483956845847935172, guid: 4f664fcaafbbc2b4e80d019c1f392ec2, type: 3}
   poolSize: 25
-  spawnDelay: 1
-  spawnFrequency: 1
+  spawnFrequency: 0.5
+  maxSpawnFrequency: 4
   spawnPoint: {x: 0, y: 10, z: -160}

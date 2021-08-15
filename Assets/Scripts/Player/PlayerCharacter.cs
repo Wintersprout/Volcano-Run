@@ -6,36 +6,32 @@ public abstract class PlayerCharacter : MonoBehaviour
 {
     [SerializeField]
     public float moveSpeed = 10;
-    public static float scrollSpeed;
-    /*
-    [SerializeField]
-    protected float jumpForce = 10;
-    */
+    public float runSpeed;
+
+    private float zBackBound = -80, zForwardBound = 10;
+
     public bool isOnGround;
 
     protected Rigidbody playerRb;
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
     }
-    /*
-    public virtual void Jump(float horizontalInput, float verticalInput)
-    {
-        Vector3 jumpVector = new Vector3(horizontalInput, 1, verticalInput) * jumpForce;
 
-        if (isOnGround)
-        {
-            playerRb.AddForce(jumpVector, ForceMode.Impulse);
-        }
+    protected virtual void Update()
+    {
+        AvoidFallingThroughTheFloor();
+        CheckBounds();
     }
-    */
+
     public virtual void Move(float horizontalInput, float verticalInput)
     {
         //if (isOnGround)
         {
             Vector3 movement = new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime;
             playerRb.MovePosition(transform.position + movement);
+            //transform.Translate(movement); // Children goes together, meaning the bomb of human would travel together with player
         }
     }
 
@@ -59,6 +55,24 @@ public abstract class PlayerCharacter : MonoBehaviour
             {
                 isOnGround = false;
             }
+        }
+    }
+
+    protected virtual void AvoidFallingThroughTheFloor()
+    {
+        if (transform.position.y < 0)
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+    }
+
+    protected virtual void CheckBounds()
+    {
+        if (transform.position.z < zBackBound)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, zBackBound);
+        }
+        else if (transform.position.z > zForwardBound)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, zForwardBound);
         }
     }
 }

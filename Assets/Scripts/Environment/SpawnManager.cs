@@ -11,7 +11,8 @@ public abstract class SpawnManager : ObjectPool
     protected float xLowerBound = -30, xUpperBound = 30;
 
     [SerializeField]
-    protected float spawnDelay = 1, spawnFrequency = 1;
+    protected float spawnFrequency = 1, maxSpawnFrequency = 3;
+    protected bool isReadyToSpawn;
 
     protected override void Awake()
     {
@@ -19,13 +20,39 @@ public abstract class SpawnManager : ObjectPool
         activeList = new List<GameObject>();
     }
 
+    protected virtual void OnEnable()
+    {
+        isReadyToSpawn = true;
+    }
+
     protected virtual void OnDisable()
     {
         CancelInvoke();
     }
 
+    protected virtual void Update()
+    {
+        RemoveOutOfBounds();
+
+        if (isReadyToSpawn)
+            StartCoroutine("SpawnRoutine");
+    }
+
     public abstract void Spawn();
 
+    protected virtual IEnumerator SpawnRoutine()
+    {
+        Spawn();
+        isReadyToSpawn = false;
+        yield return new WaitForSeconds(spawnFrequency);
+        isReadyToSpawn = true;
+        RandomizeDelay();
+    }
+
+    private void RandomizeDelay()
+    {
+        spawnFrequency = Random.Range(0, maxSpawnFrequency);
+    }
 
     protected virtual void RemoveOutOfBounds()
     {
@@ -67,7 +94,6 @@ public abstract class SpawnManager : ObjectPool
     {
         activeList.Remove(obj);
         ReturnObject(obj);
-        //Debug.Log($"Returning object {obj.name}");
     }
 
     public void RemoveAll()

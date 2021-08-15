@@ -4,17 +4,6 @@ using UnityEngine;
 
 public class PickUpPool : SpawnManager
 {
-
-    private void OnEnable()
-    {
-        InvokeRepeating("Spawn", spawnDelay, spawnFrequency);
-    }
-
-    private void Update()
-    {
-        RemoveOutOfBounds();
-    }
-
     public override void Spawn()
     {
         Vector3 location = new Vector3(Random.Range(-10.0f, 10.0f), 0.5f, 10);

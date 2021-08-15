@@ -20,10 +20,12 @@ public class Bomb : MonoBehaviour
         Throw();
     }
 
-    public void Reset(Vector3 position)
+    public void Reset()
     {
+        Vector3 position = GetComponentInParent<Transform>().position;
+        
         bombRb.velocity = Vector3.zero;
-        transform.position = position + new Vector3(0, 1.5f, -2.5f);
+        transform.position = new Vector3(position.x, position.y + 1.5f, position.z -2.5f);
     }
 
     private void Throw()

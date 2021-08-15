@@ -11,7 +11,7 @@ public class FloatingCharacter : PlayerCharacter
 
     private void Start()
     {
-        scrollSpeed = 10;
+        //scrollSpeed = 10;
     }
 
     public override void SpecialAbility()
@@ -23,8 +23,9 @@ public class FloatingCharacter : PlayerCharacter
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Input.GetKeyDown(KeyCode.B) && !isFloating)
         {
             StartCoroutine(FloatCounter(floatMaxDuration));

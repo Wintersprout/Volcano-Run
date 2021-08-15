@@ -52,25 +52,28 @@ public class GameManager : MonoBehaviour
         player = Instantiate(playerPrefabs[playerSelection]);
         player.transform.SetParent(transform);
 
+        scrollSpeed = player.GetComponent<PlayerCharacter>().runSpeed;
+        Debug.Log(scrollSpeed);
         // Load main scene
         SceneManager.LoadScene(1);
 
         // Enable Object Pools
-        var children = GetComponentsInChildren<SpawnManager>(true);
-
-        foreach (var child in children)
-        {
-            child.gameObject.SetActive(true);
-        }
-
+        StartCoroutine(ActivateSpawners());
     }
 
     public void EndGame()
     {
         gameOver = true;
         scrollSpeed = 0;
+        // Display Game Over screen
         GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
+        // Deactivate player controls
         player.GetComponent<PlayerController>().enabled = false;
+        // Lay the character dead on the floor
+        player.GetComponentInChildren<Animator>().enabled = false;
+        player.transform.position += Vector3.up;
+        player.transform.Rotate(0, 0, 90);
+        
     }
 
     public void ReturnToStartMenu()
@@ -78,6 +81,7 @@ public class GameManager : MonoBehaviour
         // Disable game over screen
         GetComponentInChildren<Canvas>().gameObject.SetActive(false);
 
+        // Reset Player and distance
         Destroy(player);
         distanceRan = 0;
 
@@ -90,6 +94,18 @@ public class GameManager : MonoBehaviour
             child.RemoveAll();
         }
 
+        // Load start menu
         SceneManager.LoadScene(0);
+    }
+
+    private IEnumerator ActivateSpawners()
+    {
+        var children = GetComponentsInChildren<SpawnManager>(true);
+
+        foreach (var child in children)
+        {
+            child.gameObject.SetActive(true);
+            yield return new WaitForSeconds(5);
+        }
     }
 }

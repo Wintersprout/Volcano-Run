@@ -8,9 +8,10 @@ public class JumpCharacter : PlayerCharacter
     [SerializeField]
     protected float jumpForce = 10;
 
-    private void Start()
+    protected override void Awake()
     {
-        scrollSpeed = 15;
+        base.Awake();
+        runSpeed = 20;
     }
     /*
     public override void Jump(float horizontalInput, float verticalInput)

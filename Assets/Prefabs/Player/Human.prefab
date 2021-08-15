@@ -4896,7 +4896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStamina: 0
-  decreaseRate: 1
+  decreaseRate: 1.8
 --- !u!114 &6220245900740756094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4910,6 +4910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  runSpeed: 0
   isOnGround: 0
 --- !u!54 &8486927065374364686
 Rigidbody:

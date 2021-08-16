@@ -51,9 +51,9 @@ public class GameManager : MonoBehaviour
         // Instantiate selected character
         player = Instantiate(playerPrefabs[playerSelection]);
         player.transform.SetParent(transform);
-
+        // Set up screen scroll speed
         scrollSpeed = player.GetComponent<PlayerCharacter>().runSpeed;
-        Debug.Log(scrollSpeed);
+
         // Load main scene
         SceneManager.LoadScene(1);
 

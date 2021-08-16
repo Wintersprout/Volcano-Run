@@ -68,4 +68,24 @@ public class Rock : Obstacle
             Random.Range(-1.0f, 1.0f),
             Random.Range(-1.0f, 1.0f)).normalized;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Bomb")
+        {
+            if (obstacleRb.mass > 1.5f)
+            {
+                obstacleRb.mass /= 2;
+                GetComponent<Transform>().localScale /= 2;
+                obstacleRb.velocity = Vector3.zero;
+                Vector3 push = new Vector3(Random.Range(-1, 1), 0, -1).normalized;
+                obstacleRb.AddForce(push * 5, ForceMode.Impulse);
+            }
+            else
+            {
+                var pool = GetComponentInParent<SpawnManager>();
+                pool.Remove(gameObject);
+            }
+        }
+    }
 }

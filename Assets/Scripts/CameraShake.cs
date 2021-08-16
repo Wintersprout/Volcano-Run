@@ -15,6 +15,11 @@ public class CameraShake : MonoBehaviour
             Instance = this;
     }
 
+    void Start()
+    {
+        Shake(2, 0.2f);
+    }
+
     public static void Shake(float duration, float amount)
     {
         Instance.StopAllCoroutines();

@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Magma : Rock
-{/*
-    [SerializeField]
-    private GameObject explosionParticle;
-    */
-    // Start is called before the first frame update
+{
+
     protected override void OnEnable()
     {
         ResetVelocity();
@@ -31,8 +28,5 @@ public class Magma : Rock
     private void OnCollisionEnter(Collision collision)
     {
         GetComponentInParent<MagmaPool>().Remove(gameObject);
-        /*
-        GameObject explosion = Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        explosion.transform.localScale = gameObject.transform.localScale;*/
     }
 }

@@ -8,17 +8,33 @@ public class GameManager : MonoBehaviour
     public static GameManager game;
     private float gravityModifier = 2;
 
+    // Spawner related variables
     [SerializeField]
     private GameObject[] spawnManager;
+    private float spawnMaxDelay;
 
+    // Player related variables
     public float scrollSpeed;
     public GameObject[] playerPrefabs;
     public int playerSelection;
     private GameObject player;
 
+    // Game flow related variables
     public bool gameOver;
-
     public float distanceRan = 0;
+    private float startTime;
+    private float waveTwoTriggerTime = 30;
+    private float waveThreeTriggerTime = 45;
+
+    // States that control obstacle spawn frequency range
+    private enum Wave
+    {
+        One,
+        Two,
+        Three
+    }
+
+    private Wave currentWave = Wave.One;
 
     private void Awake()
     {
@@ -40,6 +56,11 @@ public class GameManager : MonoBehaviour
             if (!gameOver)
             {
                 distanceRan += scrollSpeed * Time.deltaTime;
+
+                if (Time.time > (startTime + waveTwoTriggerTime) && currentWave == Wave.One)
+                    IncreaseWave(1, 2, 0.5f);
+                else if (Time.time > (startTime + waveThreeTriggerTime) && currentWave == Wave.Two)
+                    IncreaseWave(1, 2, 1);
             }
         }
     }
@@ -48,6 +69,7 @@ public class GameManager : MonoBehaviour
     {
         // Start game
         gameOver = false;
+        startTime = Time.time;
         // Instantiate selected character
         player = Instantiate(playerPrefabs[playerSelection]);
         player.transform.SetParent(transform);
@@ -107,5 +129,19 @@ public class GameManager : MonoBehaviour
             child.gameObject.SetActive(true);
             yield return new WaitForSeconds(5);
         }
+    }
+
+    private void IncreaseWave(float delayDecrement, float shakeDuration, float shakeIntensity)
+    {
+        var spawns = GetComponentsInChildren<SpawnManager>();
+
+        foreach (var spawn in spawns)
+        {
+            spawn.spawnMaxDelay -= delayDecrement;
+        }
+
+        CameraShake.Shake(shakeDuration, shakeIntensity);
+
+        currentWave++; 
     }
 }

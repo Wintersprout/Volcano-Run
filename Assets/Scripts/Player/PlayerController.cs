@@ -19,12 +19,12 @@ public class PlayerController : MonoBehaviour
             //player.Jump(horizontalInput, verticalInput);
             player.SpecialAbility();
         }
-        /*
+        
         if (Input.GetKeyDown(KeyCode.C))
         {
-            player.SpecialAbility();
+            CameraShake.Shake(1, 1);
         }
-        */
+        
     }
 
     // Update is called once per frame

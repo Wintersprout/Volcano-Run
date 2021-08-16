@@ -10,8 +10,8 @@ public abstract class SpawnManager : ObjectPool
     protected float yLowerBound = -5, yUpperBound = 50;
     protected float xLowerBound = -30, xUpperBound = 30;
 
-    [SerializeField]
-    protected float spawnFrequency = 1, maxSpawnFrequency = 3;
+    public float spawnMaxDelay = 3;
+    protected float spawnDelay = 1;
     protected bool isReadyToSpawn;
 
     protected override void Awake()
@@ -44,14 +44,14 @@ public abstract class SpawnManager : ObjectPool
     {
         Spawn();
         isReadyToSpawn = false;
-        yield return new WaitForSeconds(spawnFrequency);
+        yield return new WaitForSeconds(spawnDelay);
         isReadyToSpawn = true;
         RandomizeDelay();
     }
 
     private void RandomizeDelay()
     {
-        spawnFrequency = Random.Range(0, maxSpawnFrequency);
+        spawnDelay = Random.Range(0, spawnMaxDelay);
     }
 
     protected virtual void RemoveOutOfBounds()

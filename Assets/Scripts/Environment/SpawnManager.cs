@@ -34,7 +34,7 @@ public abstract class SpawnManager : ObjectPool
     {
         RemoveOutOfBounds();
 
-        if (isReadyToSpawn)
+        if (isReadyToSpawn && !GameManager.game.gameOver)
             StartCoroutine("SpawnRoutine");
     }
 

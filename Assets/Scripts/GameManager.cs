@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     // Spawner related variables
     [SerializeField]
     private GameObject[] spawnManager;
-    private float spawnMaxDelay;
 
     // Player related variables
     public float scrollSpeed;
@@ -26,15 +25,41 @@ public class GameManager : MonoBehaviour
     private float waveTwoTriggerTime = 30;
     private float waveThreeTriggerTime = 45;
 
-    // States that control obstacle spawn frequency range
-    private enum Wave
+    // States that indicate obstacle spawn frequency
+    private enum WaveList
     {
         One,
         Two,
         Three
     }
+    // Wave related variables
+    private struct Wave
+    {
+        private readonly float obstacleSpawnMaxDelay;
+        private readonly float pickUpSpawnMaxDelay;
+        private readonly WaveList waveNumber;
+        
+        public Wave(float obstacleDelay, float pickupDelay, WaveList waveNumber) : this()
+        {
+            this.obstacleSpawnMaxDelay = obstacleDelay;
+            this.pickUpSpawnMaxDelay = pickupDelay;
+            this.waveNumber = waveNumber;
+        }
 
-    private Wave currentWave = Wave.One;
+        public float ObstacleSpawnMaxDelay { get {return obstacleSpawnMaxDelay; } }
+        public float PickUpSpawnMaxDelay { get { return pickUpSpawnMaxDelay; } }
+        public WaveList WaveNumber { get { return waveNumber; } }
+    }
+
+    private readonly Wave[] waveArray = 
+        new Wave[] 
+        {
+            new Wave(2.5f, 5, WaveList.One), 
+            new Wave(2, 4, WaveList.Two),
+            new Wave(1.5f, 3, WaveList.Three)
+        };
+
+    private WaveList currentWave;
 
     private void Awake()
     {
@@ -57,10 +82,17 @@ public class GameManager : MonoBehaviour
             {
                 distanceRan += scrollSpeed * Time.deltaTime;
 
-                if (Time.time > (startTime + waveTwoTriggerTime) && currentWave == Wave.One)
-                    IncreaseWave(1, 2, 0.5f);
-                else if (Time.time > (startTime + waveThreeTriggerTime) && currentWave == Wave.Two)
-                    IncreaseWave(1, 2, 1);
+                if (Time.time > (startTime + waveTwoTriggerTime) && currentWave == WaveList.One)
+                {
+                    // Cosmetic indicator that a new wave has started
+                    CameraShake.Shake(2, 1);
+                    SetupWave(waveArray[1]);
+                }
+                else if (Time.time > (startTime + waveThreeTriggerTime) && currentWave == WaveList.Two)
+                {// Cosmetic indicator that a new wave has started
+                    CameraShake.Shake(2, 1);
+                    SetupWave(waveArray[2]);
+                }
             }
         }
     }
@@ -70,6 +102,7 @@ public class GameManager : MonoBehaviour
         // Start game
         gameOver = false;
         startTime = Time.time;
+        SetupWave(waveArray[0]);
         // Instantiate selected character
         player = Instantiate(playerPrefabs[playerSelection]);
         player.transform.SetParent(transform);
@@ -92,10 +125,12 @@ public class GameManager : MonoBehaviour
         // Deactivate player controls
         player.GetComponent<PlayerController>().enabled = false;
         // Lay the character dead on the floor
-        player.GetComponentInChildren<Animator>().enabled = false;
-        player.transform.position += Vector3.up;
-        player.transform.Rotate(0, 0, 90);
-        
+        if (player.GetComponent<Stamina>().currentStamina <= 0)
+        {
+            player.GetComponentInChildren<Animator>().enabled = false;
+            player.transform.position += Vector3.up;
+            player.transform.Rotate(0, 0, 90);
+        }
     }
 
     public void ReturnToStartMenu()
@@ -131,17 +166,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void IncreaseWave(float delayDecrement, float shakeDuration, float shakeIntensity)
+    private void SetupWave(Wave wave)
     {
-        var spawns = GetComponentsInChildren<SpawnManager>();
+        var spawns = GetComponentsInChildren<SpawnManager>(true);
 
         foreach (var spawn in spawns)
         {
-            spawn.spawnMaxDelay -= delayDecrement;
+            if (spawn.gameObject.GetComponent<PickUpPool>() == null)
+                spawn.spawnMaxDelay = wave.ObstacleSpawnMaxDelay;
+            else
+                spawn.spawnMaxDelay = wave.PickUpSpawnMaxDelay;
         }
 
-        CameraShake.Shake(shakeDuration, shakeIntensity);
-
-        currentWave++; 
+        currentWave = wave.WaveNumber; 
     }
 }

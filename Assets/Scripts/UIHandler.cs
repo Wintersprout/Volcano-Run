@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     private Stamina playerStamina;
-    private  Slider staminaBar;
-    private Text distanceText;
+    
+    [SerializeField]
+    private Slider staminaBar;
+    [SerializeField]
+    private Slider distanceBar;
+
+    //private Text distanceText;
 
     private float lowStaminaMark = 0.25f;
     // Start is called before the first frame update
@@ -15,8 +20,7 @@ public class UIHandler : MonoBehaviour
     {
         playerStamina = FindObjectOfType<Stamina>().GetComponent<Stamina>();
         
-        distanceText = GetComponentInChildren<Text>();
-        staminaBar = GetComponentInChildren<Slider>();
+        //distanceText = GetComponentInChildren<Text>();
         staminaBar.maxValue = Stamina.maxStamina;
     }
 
@@ -24,7 +28,10 @@ public class UIHandler : MonoBehaviour
     void Update()
     {
         staminaBar.value = playerStamina.currentStamina;
-        distanceText.text = $"Distance: {Mathf.Floor(GameManager.game.distanceRan)}m";
+        //distanceText.text = $"Distance: {Mathf.Floor(GameManager.game.distanceRan)}m";
+        distanceBar.value = GameManager.game.distanceRan;
+        if (distanceBar.value >= distanceBar.maxValue)
+            GameManager.game.EndGame();
     }
 
     public void LowStaminaDisplay()
@@ -32,7 +39,7 @@ public class UIHandler : MonoBehaviour
         // Exact location of the stamina bar fill. May break if hierarchy is changed.
         var fill = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>();
 
-        /*
+        /* Same as above. It takes a little more processing, but it is safer.
          * 
         var images = staminaBar.gameObject.GetComponentsInChildren<Image>();
         Image fill = null;

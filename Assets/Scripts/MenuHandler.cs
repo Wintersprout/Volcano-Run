@@ -21,6 +21,11 @@ public class MenuHandler : MonoBehaviour
         GameManager.game.StartGame();
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     public void SelectCharacterOne()
     {
         GameManager.game.playerSelection = 0;

@@ -135,4 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea34eef46a1b17741a612ac3148d8655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restoreRate: 30
+  restoreRate: 20

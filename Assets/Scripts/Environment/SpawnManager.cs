@@ -42,11 +42,14 @@ public abstract class SpawnManager : ObjectPool
 
     protected virtual IEnumerator SpawnRoutine()
     {
-        Spawn();
-        isReadyToSpawn = false;
-        yield return new WaitForSeconds(spawnDelay);
-        isReadyToSpawn = true;
-        RandomizeDelay();
+        if (!GameManager.game.gameOver)
+        {
+            Spawn();
+            isReadyToSpawn = false;
+            yield return new WaitForSeconds(spawnDelay);
+            isReadyToSpawn = true;
+            RandomizeDelay();
+        }
     }
 
     private void RandomizeDelay()

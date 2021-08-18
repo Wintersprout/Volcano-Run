@@ -16,11 +16,12 @@ public class GameManager : MonoBehaviour
     public float scrollSpeed;
     public GameObject[] playerPrefabs;
     public int playerSelection;
-    private GameObject player;
+    public GameObject player;
 
     // Game flow related variables
     public bool gameOver;
     public float distanceRan = 0;
+    public float distanceGoal = 2000;
     private float startTime;
     private float waveTwoTriggerTime = 30;
     private float waveThreeTriggerTime = 45;
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
             game = this;
             DontDestroyOnLoad(game);
             Physics.gravity *= gravityModifier;
+            gameOver = true;
         }
     }
     
@@ -97,39 +99,53 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void LoadMainScene()
     {
-        // Start game
-        gameOver = false;
-        startTime = Time.time;
-        SetupWave(waveArray[0]);
         // Instantiate selected character
         player = Instantiate(playerPrefabs[playerSelection]);
         player.transform.SetParent(transform);
+        player.GetComponent<PlayerController>().enabled = false;
         // Set up screen scroll speed
         scrollSpeed = player.GetComponent<PlayerCharacter>().runSpeed;
 
         // Load main scene
         SceneManager.LoadScene(1);
 
+        //StartGame();
+    }
+
+    public void StartGame()
+    {
+        // Start game
+        gameOver = false;
+        startTime = Time.time;
+        SetupWave(waveArray[0]);
+
         // Enable Object Pools
+        player.GetComponent<PlayerController>().enabled = true;
         StartCoroutine(ActivateSpawners());
     }
 
     public void EndGame()
     {
         gameOver = true;
-        scrollSpeed = 0;
         // Display Game Over screen
         GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
         // Deactivate player controls
         player.GetComponent<PlayerController>().enabled = false;
         // Lay the character dead on the floor
-        if (player.GetComponent<Stamina>().currentStamina <= 0)
+        if (player.GetComponent<Stamina>().currentStamina <= 0) // Lose the game
         {
             player.GetComponentInChildren<Animator>().enabled = false;
             player.transform.position += Vector3.up;
             player.transform.Rotate(0, 0, 90);
+        }
+        else // Win the Game
+        {
+            player.GetComponent<PlayerCharacter>().enabled = false;
+            player.GetComponent<BoxCollider>().enabled = false;
+            player.GetComponent<Rigidbody>().useGravity = false;
+            player.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 10);
         }
     }
 
@@ -162,7 +178,7 @@ public class GameManager : MonoBehaviour
         foreach (var child in children)
         {
             child.gameObject.SetActive(true);
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(1);
         }
     }
 

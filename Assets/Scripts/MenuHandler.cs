@@ -18,7 +18,7 @@ public class MenuHandler : MonoBehaviour
 
     public void StartGame()
     {
-        GameManager.game.StartGame();
+        GameManager.game.LoadMainScene();
     }
 
     public void ExitGame()

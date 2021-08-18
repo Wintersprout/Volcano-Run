@@ -4819,7 +4819,7 @@ GameObject:
   - component: {fileID: 8608155875138386659}
   - component: {fileID: 7056537086187119128}
   - component: {fileID: 6711878396642994043}
-  - component: {fileID: 7743687866001791662}
+  - component: {fileID: 2605686681209943399}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -4952,7 +4952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
---- !u!114 &7743687866001791662
+--- !u!114 &2605686681209943399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4964,4 +4964,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68db07905dcdb6408b03bd8621a367c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionPool: {fileID: 0}
+  explosionPrefab: {fileID: 6229789643310227602, guid: 76c850f8951364944af05ee9a7a1aa51, type: 3}

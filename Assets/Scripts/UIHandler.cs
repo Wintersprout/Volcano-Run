@@ -30,6 +30,8 @@ public class UIHandler : MonoBehaviour
         staminaBar.value = playerStamina.currentStamina;
         //distanceText.text = $"Distance: {Mathf.Floor(GameManager.game.distanceRan)}m";
         distanceBar.value = GameManager.game.distanceRan;
+        distanceBar.maxValue = GameManager.game.distanceGoal;
+
         if (distanceBar.value >= distanceBar.maxValue)
             GameManager.game.EndGame();
     }

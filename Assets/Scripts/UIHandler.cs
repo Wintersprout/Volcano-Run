@@ -59,7 +59,7 @@ public class UIHandler : MonoBehaviour
         }
         else
         {
-            fill.color = new Color(0.1f, 1, 0);
+            fill.color = new Color(0, 0.5f, 0.06f);
         }
     }
 }

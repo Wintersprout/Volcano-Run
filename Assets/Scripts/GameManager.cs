@@ -114,6 +114,13 @@ public class GameManager : MonoBehaviour
         //StartGame();
     }
 
+    public void LoadEndScene()
+    {
+        Destroy(player);
+        DeactivateSpawners();
+        SceneManager.LoadScene(2);
+    }
+
     public void StartGame()
     {
         // Start game
@@ -126,27 +133,38 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ActivateSpawners());
     }
 
-    public void EndGame()
+    public void RestartGame()
+    {
+        gameOver = false;
+        // Deactivate player controls
+        player.GetComponent<PlayerController>().enabled = true;
+        player.GetComponentInChildren<Animator>().enabled = true;
+    }
+
+    public void StopGame()
     {
         gameOver = true;
-        // Display Game Over screen
-        GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
         // Deactivate player controls
         player.GetComponent<PlayerController>().enabled = false;
+    }
+
+    public void LoseGame()
+    {
+        StopGame();
+        player.GetComponentInChildren<Animator>().enabled = false;
+        // Display Game Over screen
+        GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
+
         // Lay the character dead on the floor
-        if (player.GetComponent<Stamina>().currentStamina <= 0) // Lose the game
-        {
-            player.GetComponentInChildren<Animator>().enabled = false;
-            player.transform.position += Vector3.up;
-            player.transform.Rotate(0, 0, 90);
-        }
-        else // Win the Game
-        {
-            player.GetComponent<PlayerCharacter>().enabled = false;
-            player.GetComponent<BoxCollider>().enabled = false;
-            player.GetComponent<Rigidbody>().useGravity = false;
-            player.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 10);
-        }
+        player.transform.position += Vector3.up;
+        player.transform.Rotate(0, 0, 90);
+    }
+
+    public void WinGame()
+    {
+        StopGame();
+        
+        // TODO: Call the victory scene
     }
 
     public void ReturnToStartMenu()
@@ -159,13 +177,7 @@ public class GameManager : MonoBehaviour
         distanceRan = 0;
 
         // Disable all children and reset Object Pools
-        var children = GetComponentsInChildren<SpawnManager>();
-
-        foreach (var child in children)
-        {
-            child.gameObject.SetActive(false);
-            child.RemoveAll();
-        }
+        DeactivateSpawners();
 
         // Load start menu
         SceneManager.LoadScene(0);
@@ -179,6 +191,17 @@ public class GameManager : MonoBehaviour
         {
             child.gameObject.SetActive(true);
             yield return new WaitForSeconds(1);
+        }
+    }
+
+    private void DeactivateSpawners()
+    {
+        var children = GetComponentsInChildren<SpawnManager>();
+
+        foreach (var child in children)
+        {
+            child.gameObject.SetActive(false);
+            child.RemoveAll();
         }
     }
 

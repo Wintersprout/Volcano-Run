@@ -29,7 +29,7 @@ public class Stamina : MonoBehaviour
             currentStamina -= amount;
             if (currentStamina <= 0)
             {
-                GameManager.game.EndGame();
+                GameManager.game.LoseGame();
             }
         }
     }

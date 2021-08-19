@@ -12,28 +12,21 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private Slider distanceBar;
 
-    //private Text distanceText;
-
     private float lowStaminaMark = 0.25f;
-    // Start is called before the first frame update
+    
     void Start()
     {
         playerStamina = FindObjectOfType<Stamina>().GetComponent<Stamina>();
         
-        //distanceText = GetComponentInChildren<Text>();
         staminaBar.maxValue = Stamina.maxStamina;
+        distanceBar.maxValue = GameManager.game.distanceGoal;
     }
 
     // Update is called once per frame
     void Update()
     {
         staminaBar.value = playerStamina.currentStamina;
-        //distanceText.text = $"Distance: {Mathf.Floor(GameManager.game.distanceRan)}m";
         distanceBar.value = GameManager.game.distanceRan;
-        distanceBar.maxValue = GameManager.game.distanceGoal;
-
-        if (distanceBar.value >= distanceBar.maxValue)
-            GameManager.game.EndGame();
     }
 
     public void LowStaminaDisplay()

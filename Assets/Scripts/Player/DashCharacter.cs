@@ -30,13 +30,7 @@ public class DashCharacter : PlayerCharacter
         }
         base.Move(horizontalInput, verticalInput);
     }
-    /*
-    public override void Jump(float horizontalInput, float verticalInput)
-    {
-        if (!isDashing)
-            base.Jump(horizontalInput, verticalInput);
-    }
-    */
+
     public override void SpecialAbility()
     {
         if (!isDashing)

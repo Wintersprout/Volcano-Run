@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class Stamina : MonoBehaviour
 {
-    [SerializeField]
-    public const float maxStamina = 100;
+    public readonly float maxStamina = 100;
     public float currentStamina;
+    
     [SerializeField]
     private float decreaseRate;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentStamina = maxStamina;
     }
 
-    // Update is called once per frame
     void Update()
     {
         LoseStamina(decreaseRate * Time.deltaTime);
@@ -56,7 +54,7 @@ public class Stamina : MonoBehaviour
                 damageParticle.gameObject.SetActive(true);
                 damageParticle.Play();
             }
-
+            Debug.Log("damage taken");
             LoseStamina(obstacle.damageRate);
         }
     }

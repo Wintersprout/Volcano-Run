@@ -11,6 +11,9 @@ public class UIHandler : MonoBehaviour
     private Slider staminaBar;
     [SerializeField]
     private Slider distanceBar;
+    private Color staminaColor = new Color(0, 0.5f, 0.06f);
+    private Color lowStaminaColor = Color.red;
+
 
     private float lowStaminaMark = 0.25f;
     
@@ -18,7 +21,7 @@ public class UIHandler : MonoBehaviour
     {
         playerStamina = FindObjectOfType<Stamina>().GetComponent<Stamina>();
         
-        staminaBar.maxValue = Stamina.maxStamina;
+        staminaBar.maxValue = playerStamina.maxStamina;
         distanceBar.maxValue = GameManager.game.distanceGoal;
     }
 
@@ -48,13 +51,13 @@ public class UIHandler : MonoBehaviour
         if (fill == null)
             return;
 
-        if (playerStamina.currentStamina < Stamina.maxStamina * lowStaminaMark)
+        if (playerStamina.currentStamina < playerStamina.maxStamina * lowStaminaMark)
         {            
-            fill.color = new Color(1, 0, 0);
+            fill.color = lowStaminaColor;
         }
         else
         {
-            fill.color = new Color(0, 0.5f, 0.06f);
+            fill.color = staminaColor;
         }
     }
 }

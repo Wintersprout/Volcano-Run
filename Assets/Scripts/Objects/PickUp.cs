@@ -9,6 +9,6 @@ public class PickUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GetComponentInParent<ObjectPool>().ReturnObject(gameObject);
+        GetComponentInParent<ObjectPool>().ReturnToPool(gameObject);
     }
 }

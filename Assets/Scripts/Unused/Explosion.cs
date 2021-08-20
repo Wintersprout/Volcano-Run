@@ -10,6 +10,6 @@ public class Explosion : MonoBehaviour
     }
     private void OnDisable()
     {
-        GetComponentInParent<ObjectPool>().ReturnObject(this.gameObject);
+        GetComponentInParent<ObjectPool>().ReturnToPool(this.gameObject);
     }
 }

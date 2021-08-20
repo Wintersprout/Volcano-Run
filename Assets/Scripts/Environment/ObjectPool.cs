@@ -24,16 +24,23 @@ public abstract class ObjectPool : MonoBehaviour
             gameObject.transform.SetParent(this.transform);
         }
     }
-
-    public GameObject GetObject(Vector3 location)
+    /// <summary>
+    /// Returns an object from the pool at the given location.
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
+    public GameObject GetFromPool(Vector3 location)
     {
         GameObject gameObject = objectQueue.Dequeue();
         gameObject.transform.position = location;
         gameObject.SetActive(true);
         return gameObject;
     }
-
-    public void ReturnObject(GameObject gameObject)
+    /// <summary>
+    /// Deactivates the given object and returns it to the pool. 
+    /// </summary>
+    /// <param name="gameObject"></param>
+    public void ReturnToPool(GameObject gameObject)
     {
         gameObject.SetActive(false);
         objectQueue.Enqueue(gameObject);

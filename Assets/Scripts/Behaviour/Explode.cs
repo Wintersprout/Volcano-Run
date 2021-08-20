@@ -4,21 +4,6 @@ using UnityEngine;
 
 public class Explode : MonoBehaviour
 {
-    /*
-    [SerializeField]
-    private ExplosionPool explosionPool;
-
-    private void Start()
-    {
-        explosionPool = GameObject.Find("ExplosionPool").GetComponent<ExplosionPool>();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        explosionPool.GetObject(gameObject.transform.position);
-    }
-    */
-    
     [SerializeField]
     private GameObject explosionPrefab;
 
@@ -26,5 +11,4 @@ public class Explode : MonoBehaviour
     {
         _ = Instantiate(explosionPrefab, transform.position, explosionPrefab.transform.rotation);
     }
-    
 }

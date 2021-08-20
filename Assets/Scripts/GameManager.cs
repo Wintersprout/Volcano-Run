@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,18 +14,23 @@ public class GameManager : MonoBehaviour
     private GameObject[] spawnManager;
 
     // Player related variables
-    public float scrollSpeed;
     public GameObject[] playerPrefabs;
+    [HideInInspector]
+    public float scrollSpeed;
+    [HideInInspector]
     public int playerSelection;
+    [HideInInspector]
     public GameObject player;
 
     // Game flow related variables
+    [HideInInspector]
     public bool gameOver;
+    [HideInInspector]
     public float distanceRan = 0;
-    public float distanceGoal = 2000;
-    private float startTime;
+    public float distanceGoal = 2160;
+    private float gameStartTime;
     private float waveTwoTriggerTime = 30;
-    private float waveThreeTriggerTime = 45;
+    private float waveThreeTriggerTime = 60;
 
     // States that indicate obstacle spawn frequency
     private enum WaveList
@@ -55,9 +61,9 @@ public class GameManager : MonoBehaviour
     private readonly Wave[] waveArray = 
         new Wave[] 
         {
-            new Wave(2.5f, 5, WaveList.One), 
+            new Wave(2.5f, 4.5f, WaveList.One), 
             new Wave(2, 4, WaveList.Two),
-            new Wave(1.5f, 3, WaveList.Three)
+            new Wave(1.5f, 3.5f, WaveList.Three)
         };
 
     private WaveList currentWave;
@@ -84,13 +90,13 @@ public class GameManager : MonoBehaviour
             {
                 distanceRan += scrollSpeed * Time.deltaTime;
 
-                if (Time.time > (startTime + waveTwoTriggerTime) && currentWave == WaveList.One)
+                if (Time.time > (gameStartTime + waveTwoTriggerTime) && currentWave == WaveList.One)
                 {
                     // Cosmetic indicator that a new wave has started
                     CameraShake.Shake(2, 1);
                     SetupWave(waveArray[1]);
                 }
-                else if (Time.time > (startTime + waveThreeTriggerTime) && currentWave == WaveList.Two)
+                else if (Time.time > (gameStartTime + waveThreeTriggerTime) && currentWave == WaveList.Two)
                 {// Cosmetic indicator that a new wave has started
                     CameraShake.Shake(2, 1);
                     SetupWave(waveArray[2]);
@@ -98,7 +104,9 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Loads the main game scene.
+    /// </summary>
     public void LoadMainScene()
     {
         // Instantiate selected character
@@ -110,63 +118,19 @@ public class GameManager : MonoBehaviour
 
         // Load main scene
         SceneManager.LoadScene(1);
-
-        //StartGame();
     }
-
+    /// <summary>
+    /// Loads the Game End scene.
+    /// </summary>
     public void LoadEndScene()
     {
         Destroy(player);
         DeactivateSpawners();
         SceneManager.LoadScene(2);
     }
-
-    public void StartGame()
-    {
-        // Start game
-        gameOver = false;
-        startTime = Time.time;
-        SetupWave(waveArray[0]);
-
-        // Enable Object Pools
-        player.GetComponent<PlayerController>().enabled = true;
-        StartCoroutine(ActivateSpawners());
-    }
-
-    public void RestartGame()
-    {
-        gameOver = false;
-        // Deactivate player controls
-        player.GetComponent<PlayerController>().enabled = true;
-        player.GetComponentInChildren<Animator>().enabled = true;
-    }
-
-    public void StopGame()
-    {
-        gameOver = true;
-        // Deactivate player controls
-        player.GetComponent<PlayerController>().enabled = false;
-    }
-
-    public void LoseGame()
-    {
-        StopGame();
-        player.GetComponentInChildren<Animator>().enabled = false;
-        // Display Game Over screen
-        GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
-
-        // Lay the character dead on the floor
-        player.transform.position += Vector3.up;
-        player.transform.Rotate(0, 0, 90);
-    }
-
-    public void WinGame()
-    {
-        StopGame();
-        
-        // TODO: Call the victory scene
-    }
-
+    /// <summary>
+    /// Resets game status and loads the Start menu.
+    /// </summary>
     public void ReturnToStartMenu()
     {
         // Disable game over screen
@@ -182,6 +146,47 @@ public class GameManager : MonoBehaviour
         // Load start menu
         SceneManager.LoadScene(0);
     }
+    /// <summary>
+    /// Starts the game loop in the main scene
+    /// </summary>
+    public void StartGame()
+    {
+        // Start game
+        gameOver = false;
+        gameStartTime = Time.time;
+        SetupWave(waveArray[0]);
+
+        // Enable Object Pools
+        player.GetComponent<PlayerController>().enabled = true;
+        StartCoroutine(ActivateSpawners());
+    }
+        
+    private void StopGame()
+    {
+        gameOver = true;
+        // Deactivate player controls
+        player.GetComponent<PlayerController>().enabled = false;
+    }
+
+    // Called by the Stamina script, when player stamina reaches zero
+    public void LoseGame()
+    {
+        StopGame();
+        
+        // Display Game Over screen
+        DisplayGameOverCanvas(false);
+
+        // Lay the character dead on the floor
+        player.GetComponentInChildren<Animator>().enabled = false;
+        player.transform.position += Vector3.up;
+        player.transform.Rotate(0, 0, 90);
+    }
+
+    // Called by the MainSceneController script after the player runs the goal distance.
+    public void WinGame()
+    {
+        StopGame();
+    }
 
     private IEnumerator ActivateSpawners()
     {
@@ -190,7 +195,7 @@ public class GameManager : MonoBehaviour
         foreach (var child in children)
         {
             child.gameObject.SetActive(true);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
         }
     }
 
@@ -218,5 +223,18 @@ public class GameManager : MonoBehaviour
         }
 
         currentWave = wave.WaveNumber; 
+    }
+
+    public void DisplayGameOverCanvas(bool win)
+    {
+        var canvas = GetComponentInChildren<Canvas>(true);
+        var endGameText = canvas.GetComponentInChildren<TextMeshProUGUI>();
+
+        if (win)
+            endGameText.text = "YOU WIN!";
+        else
+            endGameText.text = "GAME OVER";
+
+        canvas.gameObject.SetActive(true);
     }
 }

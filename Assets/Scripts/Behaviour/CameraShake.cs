@@ -7,6 +7,9 @@ public class CameraShake : MonoBehaviour
     private Vector3 originalPosition;
     public static CameraShake Instance;
 
+    private float startingShakeDuration = 2;
+    private float startingShakeIntensity = 0.2f;
+
     void Awake()
     {
         originalPosition = transform.localPosition;
@@ -17,7 +20,7 @@ public class CameraShake : MonoBehaviour
 
     void Start()
     {
-        Shake(2, 0.2f);
+        Shake(startingShakeDuration, startingShakeIntensity);
     }
 
     public static void Shake(float duration, float amount)

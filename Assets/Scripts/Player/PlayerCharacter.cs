@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public abstract class PlayerCharacter : MonoBehaviour
 {
     [SerializeField]
     public float moveSpeed = 10;
+    [HideInInspector]
     public float runSpeed;
 
-    private float zBackBound = -80, zForwardBound = 10;
+    protected float zBackBound = -80, zForwardBound = 10;
 
+    [HideInInspector]
     public bool isOnGround;
 
     protected Rigidbody playerRb;
@@ -31,7 +34,8 @@ public abstract class PlayerCharacter : MonoBehaviour
         {
             Vector3 movement = new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime;
             playerRb.MovePosition(transform.position + movement);
-            //transform.Translate(movement); // Children goes together, meaning the bomb of human would travel together with player
+            // Children goes together, meaning the bomb of human character would travel together with player
+            //transform.Translate(movement); 
         }
     }
 
@@ -40,7 +44,6 @@ public abstract class PlayerCharacter : MonoBehaviour
     protected virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.GetContact(0).normal.normalized == Vector3.up)
-        //if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
         }

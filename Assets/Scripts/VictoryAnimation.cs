@@ -6,7 +6,7 @@ using UnityEngine;
 public class VictoryAnimation : MonoBehaviour
 {
     private float displayTime = 5;
-    private float transitionTime = 2;
+    private float transitionTime = 1.5f;
 
     [SerializeField]
     private GameObject[] player;
@@ -15,16 +15,19 @@ public class VictoryAnimation : MonoBehaviour
     private readonly string[,] dialog =
     {
         {
+            "Phew, that was a close one!",
             "Now... How exactly did I end up near an active volcano anyway?",
             "What a crazy night..."
         },
         {
-            "I would pay high money to see that fox's face when the volcano erupted...",
+            "Phew... that was a close one!",
+            "That must have scared away that fox.",
             "I guess it didn't see that coming, huh?"
         },
         {
-            "Note to self: never chase your food in to an active volcano.",
-            "It is never worth the trouble, no matter how delicious it looks."
+            "Phew... that was close!",
+            "Now, next time we are hunting...",
+            "Remember not to chase your food into an active volcano."
         }
     };
 
@@ -32,19 +35,22 @@ public class VictoryAnimation : MonoBehaviour
     {
         player[GameManager.game.playerSelection].SetActive(true);
         dialogText = GetComponentInChildren<TextMeshProUGUI>();
-        StartCoroutine(StartEndingDialog());
+        StartCoroutine(StartEndingScene());
     }
 
 
-    private IEnumerator StartEndingDialog()
+    private IEnumerator StartEndingScene()
     {
-        
+        yield return new WaitForSeconds(transitionTime);
+
         for (int i = 0; i < dialog.GetLength(1); i++)
-        {
-            yield return new WaitForSeconds(transitionTime);
+        {    
             dialogText.text = dialog[GameManager.game.playerSelection, i];
             yield return new WaitForSeconds(displayTime);
             dialogText.text = "";
+            yield return new WaitForSeconds(transitionTime);
         }
+
+        GameManager.game.DisplayGameOverCanvas(true);
     }
 }

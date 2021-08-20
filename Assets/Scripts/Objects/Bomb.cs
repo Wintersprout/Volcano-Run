@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed;
 
     private Rigidbody bombRb;
+    private float yOffset = 1.5f, zOffset = -2.5f;
+    private Vector3 trajectoryAngle = new Vector3(0, 0.5f, -1).normalized;
 
     private void Awake()
     {
@@ -19,59 +22,24 @@ public class Bomb : MonoBehaviour
     {
         Throw();
     }
-
+    /// <summary>
+    /// Resets the bomb's position and velocity.
+    /// </summary>
     public void Reset()
     {
         Vector3 position = GetComponentInParent<Transform>().position;
         
         bombRb.velocity = Vector3.zero;
-        transform.position = new Vector3(position.x, position.y + 1.5f, position.z -2.5f);
+        transform.position = new Vector3(position.x, position.y + yOffset, position.z + zOffset);
     }
 
     private void Throw()
     {
-        Vector3 angle = new Vector3(0, 0.5f, -1).normalized;
-        bombRb.AddForce(angle * moveSpeed, ForceMode.Impulse);
+        bombRb.AddForce(trajectoryAngle * moveSpeed, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         gameObject.SetActive(false);
     }
-
-    /*
-    public float speed, timer = 2.0f;
-    private Vector3 throwDirection = new Vector3(0, 0.5f, 1).normalized;
-    
-    private Rigidbody bombRb;
-    private AudioSource bombAudio;
-    
-    [SerializeField]
-    private GameObject explosion;
-
-    private void Awake()
-    {
-        bombAudio = GetComponent<AudioSource>();
-        bombRb = GetComponent<Rigidbody>();
-    }
-    
-    void Start()
-    {
-        Invoke("Explode", timer);
-        bombRb.AddForce(throwDirection * speed, ForceMode.Impulse);
-        bombAudio.Play();
-    }
-    
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (!collision.gameObject.CompareTag("Ground"))
-            Explode();
-    }
-    
-    private void Explode()
-    {
-        Destroy(gameObject);
-        Instantiate(explosion, transform.position, explosion.transform.rotation);
-    }
-    */
 }

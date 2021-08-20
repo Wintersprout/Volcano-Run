@@ -1,20 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
-
-    private ToggleGroup characterSelector;
     [SerializeField]
     private GameObject[] characterModels;
-
-    private void Awake()
-    {
-        characterSelector = GetComponentInChildren<ToggleGroup>();
-    }
 
     public void StartGame()
     {
@@ -28,23 +19,27 @@ public class MenuHandler : MonoBehaviour
 
     public void SelectCharacterOne()
     {
-        GameManager.game.playerSelection = 0;
-        characterModels[0].SetActive(true);
-        characterModels[1].SetActive(false);
-        characterModels[2].SetActive(false);
+        SetUpCharacter(0);
     }
     public void SelectCharacterTwo()
     {
-        GameManager.game.playerSelection = 1;
-        characterModels[0].SetActive(false);
-        characterModels[1].SetActive(true);
-        characterModels[2].SetActive(false);
+        SetUpCharacter(1);
     }
     public void SelectCharacterThree()
     {
-        GameManager.game.playerSelection = 2;
-        characterModels[0].SetActive(false);
-        characterModels[1].SetActive(false);
-        characterModels[2].SetActive(true);
+        SetUpCharacter(2);
+    }
+
+    private void SetUpCharacter(int characterIndex)
+    {
+        GameManager.game.playerSelection = characterIndex;
+
+        for (int i = 0; i < characterModels.Length; i++)
+        {
+            if (i != characterIndex)
+                characterModels[i].SetActive(false);
+            else
+                characterModels[i].SetActive(true);
+        }
     }
 }

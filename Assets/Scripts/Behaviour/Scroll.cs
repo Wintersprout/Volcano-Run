@@ -5,7 +5,10 @@ using UnityEngine;
 public class Scroll : MonoBehaviour
 {
     [SerializeField]
-    private bool BringBackToFront;
+    private bool BringBackToStart;
+
+    private float startingZPos = 15;
+    private float endingZPos = -180;
 
     // Update is called once per frame
     void Update()
@@ -14,10 +17,11 @@ public class Scroll : MonoBehaviour
         {
             transform.Translate(Vector3.back * GameManager.game.scrollSpeed * Time.deltaTime, Space.World);
 
-            if (BringBackToFront)
+            // Move object to the front of the screen so it can be visible again
+            if (BringBackToStart)
             {
-                Vector3 origin = new Vector3(transform.position.x, transform.position.y, 15);
-                if (transform.position.z < -180)
+                Vector3 origin = new Vector3(transform.position.x, transform.position.y, startingZPos);
+                if (transform.position.z < endingZPos)
                     transform.position = origin;
             }
         }

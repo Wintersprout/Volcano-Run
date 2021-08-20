@@ -92,13 +92,18 @@ public abstract class SpawnManager : ObjectPool
 
         return false;
     }
-
+    /// <summary>
+    /// Deactivates the object and returns it to its pool.
+    /// </summary>
+    /// <param name="obj"></param>
     public void Remove(GameObject obj)
     {
         activeList.Remove(obj);
-        ReturnObject(obj);
+        ReturnToPool(obj);
     }
-
+    /// <summary>
+    /// Deactivates all objects and return them to their pool.
+    /// </summary>
     public void RemoveAll()
     {
         List<GameObject> toBeRemoved = new List<GameObject>();

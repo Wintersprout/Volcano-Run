@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5aa8d9f155f1de4f9fbe81e2e9c982e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BringBackToFront: 0
+  BringBackToStart: 1
 --- !u!114 &419585850081999355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32cec2a3f450a9b4683b77a3ba542af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  angularSpeed: 180
 --- !u!114 &8510569656034130347
 MonoBehaviour:
   m_ObjectHideFlags: 0

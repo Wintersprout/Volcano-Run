@@ -16,6 +16,8 @@ public class BombCharacter : PlayerCharacter
     {
         if (!bomb.gameObject.activeSelf)
         {
+            if (playerAudio != null)
+                playerAudio.Play();
             bomb.Reset();
             bomb.gameObject.SetActive(true);
         }

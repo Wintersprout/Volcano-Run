@@ -68,6 +68,11 @@ public class GameManager : MonoBehaviour
 
     private WaveList currentWave;
 
+    // Text related variables
+    private readonly string victoryText = "YOU WIN!";
+    private readonly string defeatText = "GAME OVER";
+    private readonly string creditsText = "Thank you for playing!\nVolcano Run - A game by Reno Facundo.";
+
     private void Awake()
     {
 
@@ -228,12 +233,18 @@ public class GameManager : MonoBehaviour
     public void DisplayGameOverCanvas(bool win)
     {
         var canvas = GetComponentInChildren<Canvas>(true);
-        var endGameText = canvas.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] endGameText = canvas.GetComponentsInChildren<TextMeshProUGUI>();
 
         if (win)
-            endGameText.text = "YOU WIN!";
+        {
+            endGameText[0].text = victoryText;
+            endGameText[1].text = creditsText;
+        }
         else
-            endGameText.text = "GAME OVER";
+        {
+            endGameText[0].text = defeatText;
+            endGameText[1].text = "";
+        }
 
         canvas.gameObject.SetActive(true);
     }

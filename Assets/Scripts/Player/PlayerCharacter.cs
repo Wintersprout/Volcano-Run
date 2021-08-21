@@ -16,10 +16,12 @@ public abstract class PlayerCharacter : MonoBehaviour
     public bool isOnGround;
 
     protected Rigidbody playerRb;
+    public AudioSource playerAudio;
     // Start is called before the first frame update
     protected virtual void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     protected virtual void Update()

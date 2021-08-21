@@ -10,6 +10,9 @@ public class Stamina : MonoBehaviour
     [SerializeField]
     private float decreaseRate;
 
+    [SerializeField]
+    private AudioClip recoverAudio;
+
     void Start()
     {
         currentStamina = maxStamina;
@@ -39,6 +42,10 @@ public class Stamina : MonoBehaviour
         {
             currentStamina = maxStamina;
         }
+
+        var playerAudioSource = GetComponent<AudioSource>();
+        if (playerAudioSource != null)
+            playerAudioSource.PlayOneShot(recoverAudio);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -54,7 +61,6 @@ public class Stamina : MonoBehaviour
                 damageParticle.gameObject.SetActive(true);
                 damageParticle.Play();
             }
-            Debug.Log("damage taken");
             LoseStamina(obstacle.damageRate);
         }
     }

@@ -13,9 +13,12 @@ public class Rock : Obstacle
     protected float initialTorqueRange = 5;
     protected Rigidbody obstacleRb;
 
+    protected AudioSource objectAudio;
+
     void Awake()
     {
         obstacleRb = GetComponent<Rigidbody>();
+        objectAudio = GetComponent<AudioSource>();
     }
 
     protected virtual void OnEnable()
@@ -82,7 +85,7 @@ public class Rock : Obstacle
                 obstacleRb.mass /= 2;
                 GetComponent<Transform>().localScale /= 2;
                 obstacleRb.velocity = Vector3.zero;
-                
+
                 // A small push back to give the player space to breathe
                 Vector3 push = new Vector3(Random.Range(-1, 1), 0, -1).normalized;
                 obstacleRb.AddForce(push * 5, ForceMode.Impulse);
@@ -94,5 +97,8 @@ public class Rock : Obstacle
                 pool.Remove(gameObject);
             }
         }
+        else
+            if (objectAudio != null)
+            objectAudio.Play();
     }
 }

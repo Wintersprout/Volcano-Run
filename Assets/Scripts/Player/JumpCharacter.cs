@@ -19,6 +19,8 @@ public class JumpCharacter : PlayerCharacter
 
         if (isOnGround)
         {
+            if (playerAudio != null)
+                playerAudio.Play();
             playerRb.AddForce(jumpVector, ForceMode.Impulse);
         }
     }

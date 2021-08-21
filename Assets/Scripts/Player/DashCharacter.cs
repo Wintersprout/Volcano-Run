@@ -35,6 +35,8 @@ public class DashCharacter : PlayerCharacter
     {
         if (!isDashing)
         {
+            if(playerAudio != null)
+                playerAudio.Play();
             StartCoroutine("DashCounter");
         }
     }

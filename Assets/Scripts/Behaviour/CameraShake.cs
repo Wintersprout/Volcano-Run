@@ -27,6 +27,7 @@ public class CameraShake : MonoBehaviour
     {
         Instance.StopAllCoroutines();
         Instance.StartCoroutine(Instance.ShakeRoutine(duration, amount));
+        Instance.GetComponent<AudioSource>().Play();
     }
 
     public IEnumerator ShakeRoutine(float duration, float amount)
